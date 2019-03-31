@@ -6,19 +6,19 @@ module register_file(
     input clk,
     input [31:0] write_data,
     input reset, 
-    output [31:0] data_reg_1,
-    output [31:0] data_reg_2
+    output reg [31:0] data_reg_1,
+    output reg [31:0] data_reg_2
 );
 
-reg [31:0] [31:0] RegMemory;
+reg [31:0] RegMemory [255:0];
 integer i;
 
 always @ (reset)
 begin
     if (reset==1)
     begin
-    for(i=0;i<32;i=i+1)
-        RegMemory[i] = 0;
+    for(i=0;i<256;i=i+1)
+        RegMemory[i] = 32'b00000000000000000000000000000111;
     end
 end
 
@@ -28,9 +28,11 @@ begin
         RegMemory[write_reg] = write_data;
 end
 
-assign data_reg_1 = RegMemory[read_reg_1];
-assign data_reg_2 = RegMemory[read_reg_2];
-
+always @ (read_reg_1 or read_reg_2)
+begin
+	data_reg_1 = RegMemory[read_reg_1];
+	data_reg_2 = RegMemory[read_reg_2];
+end
 
 endmodule
 

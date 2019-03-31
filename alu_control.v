@@ -1,10 +1,10 @@
 module alu_control(
     input [5:0] funct,
     input alu_op,
-    output [3:0] ctrl
+    output reg [3:0] ctrl
 );
 
-always @ (alu_op)
+always @ (alu_op or funct)
 begin
     if (alu_op == 1)
     begin

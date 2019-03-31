@@ -2,7 +2,7 @@ module program_counter(
     input [7:0] previous_address,
     input clk,
     input reset,
-    output [7:0] instruction_address,
+    output reg [7:0] instruction_address
 );
 
 always @ (reset)
@@ -11,7 +11,7 @@ begin
         instruction_address = 0;
 end
 
-always @ (posedge clk or previous_address)
+always @ (posedge clk)
 begin
   instruction_address = previous_address + 4;
 end
